@@ -15,7 +15,7 @@ Transcribe video and audio files with OpenAI's speech recoginition model Whisper
 Load a OpenAI Whisper model
 
 ### Whisper Transcribe
-Transcribe with `openai-whisper`
+Transcribe with `transformers`
 
 ### Whisper Transcribe (OpenAI API)
 Transcribe with `openai` on Whisper V2 model. Requires a OpenAI access token. 
