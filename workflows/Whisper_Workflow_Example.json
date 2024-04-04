@@ -1,0 +1,479 @@
+{
+  "last_node_id": 193,
+  "last_link_id": 330,
+  "nodes": [
+    {
+      "id": 164,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        1210,
+        990
+      ],
+      "size": {
+        "0": 210,
+        "1": 76.00001525878906
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 300,
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 168,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        2450,
+        370
+      ],
+      "size": {
+        "0": 295.1026306152344,
+        "1": 583.8839111328125
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 295,
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 167,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        2170,
+        370
+      ],
+      "size": {
+        "0": 271.5714416503906,
+        "1": 582.3812866210938
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 294,
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 170,
+      "type": "ShowText|pysssss",
+      "pos": [
+        2760,
+        370
+      ],
+      "size": {
+        "0": 574.884765625,
+        "1": 494.530029296875
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 296,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "\"0\": \"Helpful Crow\",\n\"12\": \"One day a peacock was wandering in the forest in the mood to make some new friends.\",\n\"18\": \"On the way, a crow asked the peacock to be her friend.\",\n\"22\": \"No, you are not as beautiful as me, said the peacock rudely.\",\n\"26\": \"Further on, peacock met a fox and thought,\",\n\"31\": \"He looks handsome, the fox should be my friend.\",\n\"35\": \"Not knowing the danger, the peacock walked toward the fox.\",\n\"40\": \"The cunning fox caught the peacock.\",\n\"42\": \"I am going to eat you, said the fox.\",\n\"46\": \"Peacock cried in a loud tone.\",\n\"50\": \"The crow heard the cry of the peacock.\",\n\"53\": \"The crow called his fellow friends for help.\",\n\"55\": \"and they attacked the fox and freed the peacock.\",\n\"58\": \"The peacock was very thankful to the crow\",\n\"60\": \"and they became good friends.\",\n\"67\": \"What did you learn from the story?\",\n\"69\": \"Everybody is important in this world.\",\n\"71\": \"We should not look at anyone by their outside beauty and judge them.\",\n\"75\": \"They may have the widest of knowledge that anybody has.\",\n\"78\": \"Respect everyone and be friends with anyone who is good.\",\n\"82\": \"I shared my learning from the story.\",\n\"84\": \"Thank you. See you soon!\"\n"
+      ]
+    },
+    {
+      "id": 176,
+      "type": "ShowText|pysssss",
+      "pos": [
+        1660,
+        370
+      ],
+      "size": {
+        "0": 465.486328125,
+        "1": 466.2957458496094
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 293,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "Helpful Crow One day a peacock was wandering in the forest in the mood to make some new friends. On the way, a crow asked the peacock to be her friend. No, you are not as beautiful as me, said the peacock rudely. Further on, peacock met a fox and thought, He looks handsome, the fox should be my friend. Not knowing the danger, the peacock walked toward the fox. The cunning fox caught the peacock. I am going to eat you, said the fox. Peacock cried in a loud tone. The crow heard the cry of the peacock. The crow called his fellow friends for help. and they attacked the fox and freed the peacock. The peacock was very thankful to the crow and they became good friends. What did you learn from the story? Everybody is important in this world. We should not look at anyone by their outside beauty and judge them. They may have the widest of knowledge that anybody has. Respect everyone and be friends with anyone who is good. I shared my learning from the story. Thank you. See you soon!"
+      ]
+    },
+    {
+      "id": 163,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        1210,
+        890
+      ],
+      "size": {
+        "0": 210,
+        "1": 76.00001525878906
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 299,
+          "dir": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 172,
+      "type": "SAIWhisperLoadModel",
+      "pos": [
+        200,
+        370
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "model",
+          "type": "WHISPER_MODEL",
+          "links": [
+            291
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SAIWhisperLoadModel"
+      },
+      "widgets_values": [
+        "distil-whisper/distil-large-v3",
+        "cuda"
+      ]
+    },
+    {
+      "id": 177,
+      "type": "SAIWhisperTranscribe",
+      "pos": [
+        570,
+        370
+      ],
+      "size": {
+        "0": 531.5999755859375,
+        "1": 318
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "whisper_model",
+          "type": "WHISPER_MODEL",
+          "link": 291
+        }
+      ],
+      "outputs": [
+        {
+          "name": "transcription_text",
+          "type": "STRING",
+          "links": [
+            293
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "transcription_timestamp_dict",
+          "type": "DICT",
+          "links": [
+            294
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "transcription_frame_dict",
+          "type": "DICT",
+          "links": [
+            295
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "prompt_schedule",
+          "type": "STRING",
+          "links": [
+            296
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            297
+          ],
+          "shape": 3,
+          "slot_index": 4
+        },
+        {
+          "name": "transcription_count",
+          "type": "INT",
+          "links": [
+            298
+          ],
+          "shape": 3,
+          "slot_index": 5
+        },
+        {
+          "name": "frame_rate",
+          "type": "INT",
+          "links": [
+            299
+          ],
+          "shape": 3,
+          "slot_index": 6
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": [
+            300
+          ],
+          "shape": 3,
+          "slot_index": 7
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SAIWhisperTranscribe"
+      },
+      "widgets_values": [
+        "helpful_crow/helpful_crow.mp4",
+        1,
+        "sentence",
+        128
+      ]
+    },
+    {
+      "id": 162,
+      "type": "Display Any (rgthree)",
+      "pos": [
+        1210,
+        790
+      ],
+      "size": {
+        "0": 210,
+        "1": 76
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source",
+          "type": "*",
+          "link": 298,
+          "dir": 3
+        }
+      ],
+      "title": "Transcription Count",
+      "properties": {
+        "Node name for S&R": "Display Any (rgthree)"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 25,
+      "type": "PreviewImage",
+      "pos": [
+        1210,
+        370
+      ],
+      "size": {
+        "0": 386.14892578125,
+        "1": 370.2392883300781
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 297
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    }
+  ],
+  "links": [
+    [
+      291,
+      172,
+      0,
+      177,
+      0,
+      "WHISPER_MODEL"
+    ],
+    [
+      293,
+      177,
+      0,
+      176,
+      0,
+      "STRING"
+    ],
+    [
+      294,
+      177,
+      1,
+      167,
+      0,
+      "*"
+    ],
+    [
+      295,
+      177,
+      2,
+      168,
+      0,
+      "*"
+    ],
+    [
+      296,
+      177,
+      3,
+      170,
+      0,
+      "STRING"
+    ],
+    [
+      297,
+      177,
+      4,
+      25,
+      0,
+      "IMAGE"
+    ],
+    [
+      298,
+      177,
+      5,
+      162,
+      0,
+      "*"
+    ],
+    [
+      299,
+      177,
+      6,
+      163,
+      0,
+      "*"
+    ],
+    [
+      300,
+      177,
+      7,
+      164,
+      0,
+      "*"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "0246.VERSION": [
+      0,
+      0,
+      4
+    ]
+  },
+  "version": 0.4
+}
