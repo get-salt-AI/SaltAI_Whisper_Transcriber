@@ -1,6 +1,7 @@
 import json
 import os
 import tempfile
+import subprocess
 
 import numpy as np
 from pydub import AudioSegment
@@ -12,6 +13,8 @@ import torch
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 
 import folder_paths
+
+from . import logger
 
 OUTPUT = folder_paths.get_output_directory()
 INPUT = folder_paths.get_input_directory()
@@ -30,13 +33,13 @@ class SAIWhisperLoadModel:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "model": (["openai/whisper-large-v2", "openai/whisper-large-v3", "openai/whisper-base", "openai/whisper-large", "openai/whisper-medium", "openai/whisper-small", "openai/whisper-tiny", "distil-whisper/distil-large-v3", ], ),
+                "model": (["openai/whisper-large-v2", "openai/whisper-large-v3", "openai/whisper-base", "openai/whisper-large", "openai/whisper-medium", "openai/whisper-small", "openai/whisper-tiny", "distil-whisper/distil-large-v3"],),
             },
             "optional": {
-                "device": (["cuda", "cpu"], ),
+                "device": (["cuda", "cpu"],),
             },
         }
-    
+
     RETURN_TYPES = ("WHISPER_MODEL",)
     RETURN_NAMES = ("model", "processor")
 
@@ -47,7 +50,7 @@ class SAIWhisperLoadModel:
         whisper_model = AutoModelForSpeechSeq2Seq.from_pretrained(model, cache_dir=WHISPER_MODELS, use_safetensors=True).to(device)
         processor = AutoProcessor.from_pretrained(model)
         return ((whisper_model, processor, device), )
-    
+
 
 class SAIWhisperTranscribe:
     def __init__(self):
@@ -60,8 +63,8 @@ class SAIWhisperTranscribe:
         ]
         self.audio_extensions = [
             ".mp3", ".wav", ".aac", ".flac", ".ogg", ".m4a", ".wma"
-        ]   
-                    
+        ]
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -89,17 +92,17 @@ class SAIWhisperTranscribe:
         if not media_type:
             supported_formats = ', '.join(self.video_extensions + self.audio_extensions)
             raise ValueError(f"Unsupported media file format. Please provide a valid video or audio file: {supported_formats}")
-        
+
         path = os.path.join(INPUT, file_path)
         audio_path, derived_fps, frame_count, duration = self.extract_audio(path, kwargs.get('frame_rate', 8))
 
         raw_text, transcription, transcription_frame, prompt_schedule, images = self.transcribe_audio(
-            audio_path, 
-            path, 
+            audio_path,
+            path,
             derived_fps,
             duration,
-            model, 
-            processor, 
+            model,
+            processor,
             kwargs.get("max_new_tokens", 128),
             media_type,
             kwargs.get("chunk_type", "sentence")
@@ -109,13 +112,34 @@ class SAIWhisperTranscribe:
 
         return raw_text, transcription, transcription_frame, prompt_schedule, images, transcription_count, derived_fps, frame_count
 
+    def extract_audio(self, file_path, fps):
+        os.makedirs(TEMP, exist_ok=True)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3', dir=TEMP) as tmp_file:
+            tmp_file_name = tmp_file.name
+
+        cmd = [
+            'ffmpeg',
+            '-y',  # Overwrite output
+            '-i', file_path,
+            '-vn',  # No video
+            '-acodec', 'mp3',
+            '-ar', '16000',  # Sample rate for whisper
+            '-ac', '1',  # Mono channel for whisper 
+            tmp_file_name
+        ]
+        subprocess.run(cmd, check=True)
+        audio = AudioSegment.from_file(tmp_file_name)
+        duration = audio.duration_seconds
+        frame_count = int(duration * fps)
+        return tmp_file_name, fps, frame_count, duration
+
     def transcribe_audio(self, audio_path, file_path, fps, duration, model, processor, max_new_tokens, media_type="audio", chunk_type="sentence"):
         audio = AudioSegment.from_file(audio_path).set_frame_rate(16000).set_channels(1)
         samples = np.array(audio.get_array_of_samples())
         if audio.sample_width == 2:
-            samples = samples.astype(np.float32) / 2**15
+            samples = samples.astype(np.float32) / 2 ** 15
         elif audio.sample_width == 4:
-            samples = samples.astype(np.float32) / 2**31
+            samples = samples.astype(np.float32) / 2 ** 31
 
         pipe = pipeline(
             "automatic-speech-recognition",
@@ -126,7 +150,7 @@ class SAIWhisperTranscribe:
             max_new_tokens=max_new_tokens,
         )
         result = pipe(samples)
-        
+
         raw_text = result['text'].strip()
         transcription = {}
         transcription_frame = {}
@@ -149,7 +173,7 @@ class SAIWhisperTranscribe:
             transcription[round(adjusted_start_time, ndigits=2)] = text.strip()
             transcription_frame[frame_number] = text.strip()
             prompt_schedule += f'"{frame_number}": "{text.strip()}"' + (",\n" if chunk != result['chunks'][-1] else "\n")
-            
+
             if media_type == "video":
                 img = self.extract_frame(file_path, adjusted_start_time, duration)
                 images.append(pil2tensor(img))
@@ -162,17 +186,6 @@ class SAIWhisperTranscribe:
         images = torch.cat(images, dim=0)
 
         return raw_text, transcription, transcription_frame, prompt_schedule, images
-
-    def extract_audio(self, file_path, fps):
-        os.makedirs(TEMP, exist_ok=True)
-        clip = VideoFileClip(file_path)
-        fps = fps or clip.fps
-        duration = clip.duration
-        frame_count = int(duration * fps)
-        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.mp3', dir=TEMP)
-        clip.audio.write_audiofile(tmp_file.name)
-        clip.close()
-        return tmp_file.name, fps, frame_count, duration
 
     def extract_frame(self, file_path, timestamp, video_duration):
         if timestamp > video_duration:
@@ -229,7 +242,7 @@ class SAIOpenAIAPIWhisper:
             raise ValueError(f"The specified model `{model}` does not exist!")
 
         if mode not in ("transcribe", "translate_to_english"):
-            print(f'The `mode` selected "{mode}" is not valid. Please use either "transcribe", or "translate_to_english"')
+            logger.error(f'The `mode` selected "{mode}" is not valid. Please use either "transcribe", or "translate_to_english"')
             mode = "transcribe"
 
         openai.api_key = openai_key
@@ -261,8 +274,6 @@ class SAIOpenAIAPIWhisper:
                 temperature=temperature,
                 timestamp_granularities=timestamp_granularities
             )
-            from pprint import pprint
-            pprint(response, indent=4)
             if response_format in ("json", "verbose_json"):
                 segments = getattr(response, 'segments', [])
                 if json_string:
@@ -283,8 +294,6 @@ class SAIOpenAIAPIWhisper:
                 response_format=response_format,
                 temperature=temperature,
             )
-            from pprint import pprint
-            pprint(response, indent=4)
             if response_format in ("json", "verbose_json"):
                 segments = getattr(response, 'segments', [])
                 out = json.dumps(segments, ensure_ascii=True, indent=4)
@@ -294,13 +303,44 @@ class SAIOpenAIAPIWhisper:
             return out
 
     def extract_audio(self, file_path):
-        clip = VideoFileClip(file_path)
-        fps = clip.fps
-        total_frames = int(clip.duration * fps)
-        audio_path = os.path.join(OUTPUT, f"{os.path.splitext(os.path.basename(file_path))[0]}.mp3")
-        clip.audio.write_audiofile(audio_path)
-        clip.close()
-        return audio_path, fps, total_frames
+        os.makedirs(TEMP, exist_ok=True)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3', dir=TEMP) as tmp_file:
+            tmp_file_name = tmp_file.name
+
+        try:
+            probe_cmd = [
+                'ffprobe',
+                '-v', 'error',
+                '-select_streams', 'v:0',
+                '-show_entries', 'stream=r_frame_rate',
+                '-of', 'default=noprint_wrappers=1:nokey=1',
+                file_path
+            ]
+            result = subprocess.run(probe_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            fps_str = result.stdout.decode().strip()
+            if fps_str:
+                num, den = map(int, fps_str.split('/'))
+                fps = num / den
+            else:
+                fps = 21
+        except Exception as e:
+            fps = 21
+
+        cmd = [
+            'ffmpeg',
+            '-y',  # Overwrite output
+            '-i', file_path,
+            '-vn',  # No video
+            '-acodec', 'mp3',
+            '-ar', '16000',  # Sample rate for whisper
+            '-ac', '1',  # Mono channel for whisper 
+            tmp_file_name
+        ]
+        subprocess.run(cmd, check=True)
+        audio = AudioSegment.from_file(tmp_file_name)
+        duration = audio.duration_seconds
+        frame_count = int(duration * fps)
+        return tmp_file_name, fps, frame_count
     
     def prompt_schedule(self, transcription, fps, max_frames, seek_seconds):
         prompt_schedule = ""
@@ -320,6 +360,7 @@ class SAIOpenAIAPIWhisper:
 
         return prompt_schedule
 
+
 NODE_CLASS_MAPPINGS = {
     "SAIWhisperLoadModel": SAIWhisperLoadModel,
     "SAIWhisperTranscribe": SAIWhisperTranscribe,
@@ -329,5 +370,5 @@ NODE_CLASS_MAPPINGS = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     "SAIWhisperLoadModel": "Whisper Model Loader",
     "SAIWhisperTranscribe": "Whisper Transcribe",
-    "SAIOpenAIAPIWhisper": "Whisper Transcribe (OpenAI API)"
+    "SAIOpenAIAPIWhisper": "Whisper Transcribe (OpenAI API)",
 }
