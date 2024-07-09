@@ -1,6 +1,6 @@
 [project]
-name = "pr-saltai_whisper_transcriber-e087b361"
-description = ""
+name = "SaltAI Whisper Transcribe"
+description = "Transcribe videos or audio with Whisper, either locally or via OpenAI's API"
 version = "1.0.0"
 license = "LICENSE"
 dependencies = ["openai>=1.13.3", "pydub>=0.25.1", "moviepy>=1.0.3", "transformers>=4.39.2"]
@@ -10,6 +10,6 @@ Repository = "https://github.com/haohaocreates/PR-SaltAI_Whisper_Transcriber-e08
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = ""
-DisplayName = "PR-SaltAI_Whisper_Transcriber-e087b361"
+PublisherId = "saltai"
+DisplayName = "SaltAI_Whisper_Transcriber"
 Icon = ""
