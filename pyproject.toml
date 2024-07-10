@@ -1,5 +1,5 @@
 [project]
-name = "SaltAI Whisper Transcribe"
+name = "saltai_whisper_transcribe"
 description = "Transcribe videos or audio with Whisper, either locally or via OpenAI's API"
 version = "1.0.0"
 license = "LICENSE"
@@ -11,5 +11,5 @@ Repository = "https://github.com/haohaocreates/PR-SaltAI_Whisper_Transcriber-e08
 
 [tool.comfy]
 PublisherId = "saltai"
-DisplayName = "SaltAI_Whisper_Transcriber"
+DisplayName = "saltai_whisper_transcribe"
 Icon = ""
