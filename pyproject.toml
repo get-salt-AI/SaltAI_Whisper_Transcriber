@@ -6,7 +6,7 @@ license = "LICENSE"
 dependencies = ["openai>=1.13.3", "pydub>=0.25.1", "moviepy>=1.0.3", "transformers>=4.39.2"]
 
 [project.urls]
-Repository = "https://github.com/haohaocreates/PR-SaltAI_Whisper_Transcriber-e087b361"
+Repository = "https://github.com/get-salt-AI/SaltAI_Whisper_Transcriber"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
